@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 
 
-public interface FileUtilService {
+public interface FileUtilService extends PdfUtil{
 	
     static final String PATH_SEPARATOR = "/";
     

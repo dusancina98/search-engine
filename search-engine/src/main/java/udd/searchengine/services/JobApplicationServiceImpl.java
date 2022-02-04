@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.UUID;
 
+import org.elasticsearch.common.geo.GeoPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,10 @@ import udd.searchengine.contracts.dto.JobApplicationDTO;
 import udd.searchengine.entities.CV;
 import udd.searchengine.entities.CoverLetter;
 import udd.searchengine.entities.JobApplication;
+import udd.searchengine.entities.elasticsearch.CVIndexUnit;
 import udd.searchengine.repository.CityRepository;
 import udd.searchengine.repository.JobApplicationRepository;
+import udd.searchengine.repository.elasticsearch.CVElasticSearchRepository;
 import udd.searchengine.services.util.CityMapper;
 import udd.searchengine.services.util.JobApplicationMapper;
 
@@ -33,6 +36,9 @@ public class JobApplicationServiceImpl implements JobAplicationService{
 	private JobApplicationRepository jobApplicationRepository;
 	
 	@Autowired
+	private CVElasticSearchRepository cvElasticSearchRepository;
+	
+	@Autowired
 	private FileUtilService fileUtilService;
 	
 	@Override
@@ -46,17 +52,27 @@ public class JobApplicationServiceImpl implements JobAplicationService{
 				
 		try {
 			String cvPath = fileUtilService.saveFileAndGetPath(jobApplicationDTO.CVDocument, jobApplication.getId().toString(), CV_DOCUMENTS_FOLDER_PATH);
-			jobApplication.setCvDocument(new CV("", cvPath));
+			String cvContent = fileUtilService.extractTextFromPdf(cvPath);
+			jobApplication.setCvDocument(new CV(cvContent, cvPath));
 			
 			String coverLetterPath = fileUtilService.saveFileAndGetPath(jobApplicationDTO.CoverLetterDocument, jobApplication.getId().toString(), COVER_LETTER_DOCUMENTS_FOLDER_PATH);
-			jobApplication.setCoverLetter(new CoverLetter("", coverLetterPath));
+			String coverLetterContent = fileUtilService.extractTextFromPdf(coverLetterPath);
+			jobApplication.setCoverLetter(new CoverLetter(coverLetterContent, coverLetterPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw e;
 		}
+		indexCvDocument(jobApplication);
 		
 		jobApplicationRepository.save(jobApplication);
 		return jobApplication.getId();
+	}
+	
+	private void indexCvDocument(JobApplication jobApplication) {
+		CVIndexUnit indexUnit = new CVIndexUnit(jobApplication.getId().toString(), jobApplication.getCandidate().getFirstNname(), jobApplication.getCandidate().getLastNname(),
+												jobApplication.getCandidate().getQualificationLevel(), jobApplication.getCvDocument().getContent(),
+												new GeoPoint(jobApplication.getCandidate().getCity().getLatitude(), jobApplication.getCandidate().getCity().getLongitude()));
+		cvElasticSearchRepository.save(indexUnit);
 	}
 
 }
