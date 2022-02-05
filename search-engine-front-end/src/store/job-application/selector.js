@@ -8,3 +8,4 @@ export const makeCreateJobApplicationSuccess = () => createSelector(selectJobApp
 
 export const makeCities = () => createSelector(selectJobApplication, (substate) => substate.cities);
 export const makeQualificationLevels = () => createSelector(selectJobApplication, (substate) => substate.qualificationLevels);
+export const makeComplexSearchResults = () => createSelector(selectJobApplication, (substate) => substate.complexSearchResults);

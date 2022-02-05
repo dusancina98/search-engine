@@ -6,6 +6,7 @@ export const initialState = {
 	createJobApplicationSuccess: null,
 	cities: [],
 	qualificationLevels: [],
+	complexSearchResults: [],
 };
 
 export const jobApplicationReducer = createReducer(initialState, {
@@ -35,5 +36,14 @@ export const jobApplicationReducer = createReducer(initialState, {
 	},
 	[jobApplicationActions.retreiveQualificationLevelsError]: (state, action) => {
 		return { ...state, qualificationLevels: [] };
+	},
+	[jobApplicationActions.searchWithComplexQueriesRequest]: (state, _action) => {
+		return { ...state, complexSearchResults: [] };
+	},
+	[jobApplicationActions.searchWithComplexQueriesSuccess]: (state, action) => {
+		return { ...state, complexSearchResults: action.payload };
+	},
+	[jobApplicationActions.searchWithComplexQueriesError]: (state, action) => {
+		return { ...state, complexSearchResults: [] };
 	},
 });

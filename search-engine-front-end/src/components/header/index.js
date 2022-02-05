@@ -12,6 +12,16 @@ const Header = () => {
 									Apply for job
 								</Link>
 							</li>
+							<li className="nav-item ">
+								<Link className="mdi mdi-chart-bar nav-link " to={routes.COMPLEX_SEARCH}>
+									Complex search
+								</Link>
+							</li>
+							<li className="nav-item ">
+								<Link className="mdi mdi-chart-bar nav-link " to={routes.GEOLOCATION_SEARCH}>
+									Geolocation search
+								</Link>
+							</li>
 						</ul>
 					</div>
 				</div>

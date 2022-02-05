@@ -15,3 +15,8 @@ export const retrieveQualificationLevels = createAsyncThunk("job-application/qua
 	let response = await client.get(`/job-application/qualification-levels`);
 	return response.data;
 });
+
+export const searchWithComplexQueries = createAsyncThunk("job-application/search/complex", async (queries, _thunkAPI) => {
+	let response = await client.post(`/search/custom`, queries);
+	return response.data;
+});

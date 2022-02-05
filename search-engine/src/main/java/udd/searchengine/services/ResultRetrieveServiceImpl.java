@@ -30,7 +30,7 @@ public class ResultRetrieveServiceImpl implements ResultRetrieveService{
         for (CVIndexUnit indexUnit : cvElasticSearchRepository.search(queryBuilder)) {
         	String highlight = "";
         	//create dynamic highlight
-        	results.add(new SearchResultDTO(highlight, indexUnit.getFirstName(), indexUnit.getLastName(), indexUnit.getCity(), indexUnit.getQualificationLevel().name(), indexUnit.getLocation().getLat(), indexUnit.getLocation().getLon()));
+        	results.add(new SearchResultDTO(indexUnit.getId() ,highlight, indexUnit.getFirstName(), indexUnit.getLastName(), indexUnit.getCity(), indexUnit.getQualificationLevel().name(), indexUnit.getLocation().getLat(), indexUnit.getLocation().getLon()));
 		}
         
 		
