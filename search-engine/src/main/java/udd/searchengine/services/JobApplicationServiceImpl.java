@@ -49,29 +49,31 @@ public class JobApplicationServiceImpl implements JobAplicationService{
 	@Override
 	public UUID create(JobApplicationDTO jobApplicationDTO) throws IOException {
 		JobApplication jobApplication = JobApplicationMapper.mapJobApplicationDTOToJobApplication(jobApplicationDTO, cityRepository.getById(jobApplicationDTO.ApplicationCandidate.CityId));
-				
+		String cvContent = "";
+		String coverLetterContent = "";
 		try {
 			String cvPath = fileUtilService.saveFileAndGetPath(jobApplicationDTO.CVDocument, jobApplication.getId().toString(), CV_DOCUMENTS_FOLDER_PATH);
-			String cvContent = fileUtilService.extractTextFromPdf(cvPath);
-			jobApplication.setCvDocument(new CV(cvContent, cvPath));
+			cvContent = fileUtilService.extractTextFromPdf(cvPath);
+			jobApplication.setCvDocument(new CV(cvPath));
 			
 			String coverLetterPath = fileUtilService.saveFileAndGetPath(jobApplicationDTO.CoverLetterDocument, jobApplication.getId().toString(), COVER_LETTER_DOCUMENTS_FOLDER_PATH);
-			String coverLetterContent = fileUtilService.extractTextFromPdf(coverLetterPath);
-			jobApplication.setCoverLetter(new CoverLetter(coverLetterContent, coverLetterPath));
+			coverLetterContent = fileUtilService.extractTextFromPdf(coverLetterPath);
+			jobApplication.setCoverLetter(new CoverLetter(coverLetterPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		indexCvDocument(jobApplication);
+		indexCvDocument(jobApplication, cvContent);
 		
 		jobApplicationRepository.save(jobApplication);
 		return jobApplication.getId();
 	}
 	
-	private void indexCvDocument(JobApplication jobApplication) {
+	private void indexCvDocument(JobApplication jobApplication, String content) {
 		CVIndexUnit indexUnit = new CVIndexUnit(jobApplication.getId().toString(), jobApplication.getCandidate().getFirstNname(), jobApplication.getCandidate().getLastNname(),
-												jobApplication.getCandidate().getQualificationLevel(), jobApplication.getCvDocument().getContent(),
-												new GeoPoint(jobApplication.getCandidate().getCity().getLatitude(), jobApplication.getCandidate().getCity().getLongitude()));
+												jobApplication.getCandidate().getQualificationLevel(), content,
+												new GeoPoint(jobApplication.getCandidate().getCity().getLatitude(), jobApplication.getCandidate().getCity().getLongitude()),
+												jobApplication.getCandidate().getCity().getName());
 		cvElasticSearchRepository.save(indexUnit);
 	}
 

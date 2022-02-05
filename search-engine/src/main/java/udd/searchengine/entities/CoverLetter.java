@@ -20,13 +20,13 @@ public class CoverLetter {
     @Column(name = "id")
 	private @Setter(AccessLevel.PRIVATE) UUID id;
 	
-	@Column(nullable = false)
-	private String content;
+//	@Column(nullable = false)
+//	private String content;
 	
 	@Column(nullable = false)
 	private String pathToFIle;
 	
-	public CoverLetter(String content, String pathToFIle) {
-		this(UUID.randomUUID(), content, pathToFIle);
+	public CoverLetter(String pathToFIle) {
+		this(UUID.randomUUID(), pathToFIle);
 	}
 }

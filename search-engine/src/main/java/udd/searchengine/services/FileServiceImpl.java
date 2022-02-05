@@ -51,61 +51,11 @@ public class FileServiceImpl implements FileUtilService{
 	public String extractTextFromPdf(String pathToFile) {
 		try {
 			PDDocument pdDoc = Loader.loadPDF(new File(REL_IMAGE_PATH + pathToFile));
-			//PDDocument pdDoc = PDDocument.load(file);
 			PDFTextStripper pdfStripper = new PDFTextStripper();
 			return pdfStripper.getText(pdDoc);
 		} catch (IOException e) {
 			System.out.println("Greksa pri konvertovanju dokumenta u pdf");
 		}
 		return null;
-//		try {
-//			File f = new File(REL_IMAGE_PATH + pathToFile);
-//			PDFParser parser = new PDFParser(new RandomAccessFile(f, "r"));
-//			parser.parse();			
-//			COSDocument cosDoc = parser.getDocument();
-//			PDFTextStripper pdfStripper = new PDFTextStripper();
-//			PDDocument pdDoc = new PDDocument(cosDoc);
-//			return pdfStripper.getText(pdDoc);
-//			//return parsedText;
-//		} catch (FileNotFoundException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//		return null;
-//		try (PDDocument document = PDDocument.load(new File(REL_IMAGE_PATH + pathToFile))) {
-//
-//            if (!document.isEncrypted()) {
-//
-//                PDFTextStripper tStripper = new PDFTextStripper();
-//                return tStripper.getText(document);
-//               
-//
-//            }
-//        } catch (IOException e){
-//            System.err.println("Exception while trying to read pdf document - " + e);
-//        }
-//        return null;
-
-//		try {
-//
-//			System.out.println(pathToFile);
-//			//PDDocument pdDoc = Loader.loadPDF(new File(REL_IMAGE_PATH + pathToFile));
-//			File file = new File(REL_IMAGE_PATH + pathToFile);
-//			PDDocument pdDoc = PDDocument.load(file);
-//			PDFTextStripper pdfStripper = new PDFTextStripper();
-//			return pdfStripper.getText(pdDoc);
-////			File file = new File(pathToFile);
-////			PDFParser parser = new PDFParser(new RandomAccessFile(file, "r"));
-////			parser.parse();
-////			PDFTextStripper textStripper = new PDFTextStripper();
-////			String text = textStripper.getText(parser.getPDDocument());
-////			return text;
-//		} catch (IOException e) {
-//			System.out.println("Greksa pri konvertovanju dokumenta u pdf");
-//		}
-//		return null;
 	}
 }

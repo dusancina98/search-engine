@@ -20,13 +20,13 @@ public class CV {
     @Column(name = "id")
 	private @Setter(AccessLevel.PRIVATE) UUID id;
 	
-	@Column(nullable = false)
-	private String content;
+//	@Column(nullable = false)
+//	private String content;
 	
 	@Column(nullable = false)
 	private String pathToFIle;
 	
-	public CV(String content, String pathToFIle) {
-		this(UUID.randomUUID(), content, pathToFIle);
+	public CV(String pathToFIle) {
+		this(UUID.randomUUID(), pathToFIle);
 	}
 }
