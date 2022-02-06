@@ -50,7 +50,7 @@ public class JobApplicationServiceImpl implements JobAplicationService{
 	public UUID create(JobApplicationDTO jobApplicationDTO) throws IOException {
 		JobApplication jobApplication = JobApplicationMapper.mapJobApplicationDTOToJobApplication(jobApplicationDTO, cityRepository.getById(jobApplicationDTO.ApplicationCandidate.CityId));
 		String cvContent = "";
-		String coverLetterContent = "s";
+		String coverLetterContent = "";
 		try {
 			String cvPath = fileUtilService.saveFileAndGetPath(jobApplicationDTO.CVDocument, jobApplication.getId().toString(), CV_DOCUMENTS_FOLDER_PATH);
 			cvContent = fileUtilService.extractTextFromPdf(cvPath);
