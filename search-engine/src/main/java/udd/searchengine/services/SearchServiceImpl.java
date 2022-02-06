@@ -1,6 +1,7 @@
 package udd.searchengine.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -13,13 +14,20 @@ import udd.searchengine.contracts.ResultRetrieveService;
 import udd.searchengine.contracts.SearchService;
 import udd.searchengine.contracts.dto.SearchResultDTO;
 import udd.searchengine.contracts.dto.SimpleQueryWithOperatorDTO;
+import udd.searchengine.entities.City;
 import udd.searchengine.entities.elasticsearch.LogicalOperator;
 import udd.searchengine.entities.elasticsearch.SearchType;
+import udd.searchengine.repository.CityRepository;
 import udd.searchengine.services.util.elasticsearch.QueryFactory;
 
 @Service
 public class SearchServiceImpl implements SearchService{
 
+	private static final String GEOLOCATION_FIELD = "location";
+	
+	@Autowired
+	private CityRepository cityRepository;
+	
 	@Autowired
 	private ResultRetrieveService resultRetrieveService;
 	
@@ -42,10 +50,10 @@ public class SearchServiceImpl implements SearchService{
             try {
                 if (query.Value.startsWith("\"") && query.Value.endsWith("\"")) {
                 	query.Value = query.Value.substring(1, query.Value.length()-1);
-                    queryBuilder =  new QueryFactory().buildQuery(SearchType.phrase, query.Field, query.Value);
+                    queryBuilder =  new QueryFactory().field(query.Field).value(query.Value).buildQuery(SearchType.phrase);
                 }
                 else {
-                	queryBuilder = new QueryFactory().buildQuery(SearchType.match, query.Field, query.Value);
+                	queryBuilder = new QueryFactory().field(query.Field).value(query.Value).buildQuery(SearchType.match);
                 }
 
             } catch (ParseException e) {
@@ -73,5 +81,23 @@ public class SearchServiceImpl implements SearchService{
         
         return resultRetrieveService.getResultWithDynamicHighlight(boolQueryBuilder);
 	}
+	
+	@Override
+	public List<SearchResultDTO> geolocationSearch(UUID cityId, int radius) {
+		City city = cityRepository.getById(cityId);
+		        
+        QueryBuilder queryBuilder = null;
+        try {
+			queryBuilder =  new QueryFactory().field(GEOLOCATION_FIELD).latitude(city.getLatitude()).longitude(city.getLongitude()).radius(radius).buildQuery(SearchType.geospatial);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+        return resultRetrieveService.getGeoSpatialResult(queryBuilder);
 
+	}
 }

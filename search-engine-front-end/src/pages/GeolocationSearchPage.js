@@ -1,19 +1,17 @@
-import ComplexSearchForm from "../components/complex-search-form";
-import SearchResultList from "../components/search-result-list";
+import GeolocationSearchForm from "../components/geolocation-search-form";
 
-const ComplexSearchPage = () => {
+const GeolocationSearchPage = () => {
 	return (
 		<>
 			<div className="row m-auto w-75">
-				<div className="col-4 p-4 border" style={{ border: "1px", borderRadius: "15px" }}>
-					<ComplexSearchForm />
-				</div>
-				<div className="col-8">
-					<SearchResultList />
+				<div className="col-12">
+					<div>
+						<GeolocationSearchForm />
+					</div>
 				</div>
 			</div>
 		</>
 	);
 };
 
-export default ComplexSearchPage;
+export default GeolocationSearchPage;

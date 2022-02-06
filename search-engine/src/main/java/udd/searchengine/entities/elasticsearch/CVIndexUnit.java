@@ -39,7 +39,7 @@ public class CVIndexUnit {
 	private String content;
 	
 	@GeoPointField
-	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+	//@JsonFormat(shape = JsonFormat.Shape.OBJECT) 
 	private GeoPoint location;	
 	
 	@Field(type = FieldType.Text)

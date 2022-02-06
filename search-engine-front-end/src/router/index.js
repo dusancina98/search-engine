@@ -2,7 +2,7 @@ import { routes } from "./routes";
 import { Routes, Route } from "react-router-dom";
 import CreateJobApplicationPage from "../pages/CreateJobApplicationPage";
 import ComplexSearchPage from "../pages/ComplexSearchPage";
-import GeolocationSearchPage from "../pages/ComplexSearchPage";
+import GeolocationSearchPage from "../pages/GeolocationSearchPage";
 
 const PageRouter = () => {
 	return (

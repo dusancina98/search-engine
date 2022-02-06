@@ -20,3 +20,8 @@ export const searchWithComplexQueries = createAsyncThunk("job-application/search
 	let response = await client.post(`/search/custom`, queries);
 	return response.data;
 });
+
+export const searchByGeolocation = createAsyncThunk("job-application/search/geolocation", async (params, _thunkAPI) => {
+	let response = await client.get(`/search/geolocation`, { params });
+	return response.data;
+});

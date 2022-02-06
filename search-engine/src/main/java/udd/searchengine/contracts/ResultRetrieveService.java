@@ -9,4 +9,6 @@ import udd.searchengine.contracts.dto.SearchResultDTO;
 public interface ResultRetrieveService {
 
 	List<SearchResultDTO> getResultWithDynamicHighlight(QueryBuilder queryBuilder);
+	
+	List<SearchResultDTO> getGeoSpatialResult(QueryBuilder queryBuilder);
 }

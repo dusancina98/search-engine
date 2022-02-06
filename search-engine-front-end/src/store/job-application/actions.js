@@ -1,4 +1,4 @@
-import { createJobApplication, retrieveCities, retrieveQualificationLevels, searchWithComplexQueries } from "../../services/jobApplicationService";
+import { createJobApplication, retrieveCities, retrieveQualificationLevels, searchByGeolocation, searchWithComplexQueries } from "../../services/jobApplicationService";
 
 export const createJobApplicationRequest = createJobApplication.pending;
 export const createJobApplicationSuccess = createJobApplication.fulfilled;
@@ -15,3 +15,7 @@ export const retreiveQualificationLevelsError = retrieveQualificationLevels.reje
 export const searchWithComplexQueriesRequest = searchWithComplexQueries.pending;
 export const searchWithComplexQueriesSuccess = searchWithComplexQueries.fulfilled;
 export const searchWithComplexQueriesError = searchWithComplexQueries.rejected;
+
+export const searchByGeolocationRequest = searchByGeolocation.pending;
+export const searchByGeolocationSuccess = searchByGeolocation.fulfilled;
+export const searchByGeolocationError = searchByGeolocation.rejected;

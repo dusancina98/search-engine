@@ -7,6 +7,7 @@ export const initialState = {
 	cities: [],
 	qualificationLevels: [],
 	complexSearchResults: [],
+	geolocationSearchResults: [],
 };
 
 export const jobApplicationReducer = createReducer(initialState, {
@@ -45,5 +46,14 @@ export const jobApplicationReducer = createReducer(initialState, {
 	},
 	[jobApplicationActions.searchWithComplexQueriesError]: (state, action) => {
 		return { ...state, complexSearchResults: [] };
+	},
+	[jobApplicationActions.searchByGeolocationRequest]: (state, _action) => {
+		return { ...state, geolocationSearchResults: [] };
+	},
+	[jobApplicationActions.searchByGeolocationSuccess]: (state, action) => {
+		return { ...state, geolocationSearchResults: action.payload };
+	},
+	[jobApplicationActions.searchByGeolocationError]: (state, action) => {
+		return { ...state, geolocationSearchResults: [] };
 	},
 });

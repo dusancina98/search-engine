@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { retrieveCities, searchWithComplexQueries } from "../../services/jobApplicationService";
+import { retrieveCities, searchByGeolocation } from "../../services/jobApplicationService";
 import { makeCities } from "../../store/job-application/selector";
 import { geolocationSearchFormFields } from "../../util/searchConstants";
 import InputField from "../form/InputField";
@@ -21,12 +21,12 @@ const GeolocationSearchForm = () => {
 	}, [dispatch]);
 
 	const handleSubmit = (values, _actions) => {
-		let queries = {
-			City: values[geolocationSearchFormFields.city],
-			Radius: geolocationSearchFormFields.radius,
+		let params = {
+			cityId: values[geolocationSearchFormFields.city],
+			radius: values[geolocationSearchFormFields.radius],
 		};
 
-		dispatch(searchWithComplexQueries(queries));
+		dispatch(searchByGeolocation(params));
 	};
 
 	return (

@@ -16,7 +16,20 @@ public class QueryFactory {
 	private double longitude = 0;
 
 	private int radius = 0;
+	
+	private String field = "";
+	
+	private String value = "";
 
+	public QueryFactory field(String field){
+		this.field = field;
+		return this;
+	}
+	
+	public QueryFactory value(String value){
+		this.value = value;
+		return this;
+	}
 	
 	public QueryFactory latitude(double latitude){
 		this.latitude = latitude;
@@ -34,7 +47,7 @@ public class QueryFactory {
 	}
 
 	
-	public QueryBuilder buildQuery(SearchType queryType, String field, String value) throws IllegalArgumentException, ParseException{
+	public QueryBuilder buildQuery(SearchType queryType) throws IllegalArgumentException, ParseException{
 		String errorMessage = "";
 		if(field == null || field.equals("")){
 			errorMessage += "Field not specified";
@@ -43,7 +56,7 @@ public class QueryFactory {
 			if(!errorMessage.equals("")) errorMessage += "\n";
 			errorMessage += "Value not specified";
 		}
-		if(!errorMessage.equals("")){
+		if(!errorMessage.equals("") && !queryType.equals(SearchType.geospatial)){
 			throw new IllegalArgumentException(errorMessage);
 		}
 		
