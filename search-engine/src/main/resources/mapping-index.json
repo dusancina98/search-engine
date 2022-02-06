@@ -1,0 +1,22 @@
+{
+    "properties": {
+   		"firstName": {
+            "type": "text"
+        },
+        "lastName": {
+            "type": "text"
+        },
+        "qualificationLevel": {
+            "type": "text"
+        },
+    	"city": {
+            "type": "text"
+        },
+        "content": {
+            "type": "text"
+        },
+        "location": {
+            "type": "geo_point"
+        }
+    }
+}

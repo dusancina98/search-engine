@@ -3,11 +3,15 @@ package udd.searchengine.services;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.stereotype.Service;
 
 import udd.searchengine.contracts.ResultRetrieveService;
@@ -15,6 +19,7 @@ import udd.searchengine.contracts.SearchService;
 import udd.searchengine.contracts.dto.SearchResultDTO;
 import udd.searchengine.contracts.dto.SimpleQueryWithOperatorDTO;
 import udd.searchengine.entities.City;
+import udd.searchengine.entities.elasticsearch.CVIndexUnit;
 import udd.searchengine.entities.elasticsearch.LogicalOperator;
 import udd.searchengine.entities.elasticsearch.SearchType;
 import udd.searchengine.repository.CityRepository;
@@ -30,6 +35,19 @@ public class SearchServiceImpl implements SearchService{
 	
 	@Autowired
 	private ResultRetrieveService resultRetrieveService;
+	
+	
+	@Autowired
+	private ElasticsearchRestTemplate elasticsearchRestTemplate;
+
+	@PostConstruct
+	public void init() {
+	    IndexOperations indexOperations = elasticsearchRestTemplate.indexOps(CVIndexUnit.class);
+	    indexOperations.putMapping(indexOperations.createMapping());
+	    indexOperations.refresh();
+	}
+
+	
 	
 	@Override
 	public List<SearchResultDTO> search(List<SimpleQueryWithOperatorDTO> queries) {

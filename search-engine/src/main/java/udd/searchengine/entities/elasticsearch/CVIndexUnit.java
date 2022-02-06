@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import udd.searchengine.entities.QualificationLevel;
 
-@Document(indexName = CVIndexUnit.INDEX_NAME)
+@Document(indexName = CVIndexUnit.INDEX_NAME, shards = 1, replicas = 0)
+//@Mapping(mappingPath = "mapping-index.json")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class CVIndexUnit {
 
@@ -39,7 +40,7 @@ public class CVIndexUnit {
 	private String content;
 	
 	@GeoPointField
-	//@JsonFormat(shape = JsonFormat.Shape.OBJECT) 
+	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 	private GeoPoint location;	
 	
 	@Field(type = FieldType.Text)
