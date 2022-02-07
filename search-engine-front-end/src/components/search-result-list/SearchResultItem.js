@@ -14,9 +14,8 @@ const SearchResultItem = ({ firstName, lastName, city, qualificationLevel, latit
 						{city} [{latitude}, {longitude}]
 					</span>
 				</div>
-				<div className="col-12  shadow p-2 mt-2" style={{ borderRadius: "15px" }}>
-					{highlight}
-					asdddddddddddddddddddddddddddddddddddddddddddddd asdsassssssss asdasdasdassd as adadasdasdasdas adasdsada asd
+				<div className="col-12  shadow p-2 mt-2" style={{ borderRadius: "15px", color: "#1906A7" }}>
+					<span dangerouslySetInnerHTML={{ __html: highlight }} />
 				</div>
 			</div>
 		</>

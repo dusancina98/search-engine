@@ -15,13 +15,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import udd.searchengine.entities.QualificationLevel;
 
-@Document(indexName = CVIndexUnit.INDEX_NAME, shards = 1, replicas = 0)
-//@Mapping(mappingPath = "mapping-index.json")
+@Document(indexName = IndexUnit.INDEX_NAME, shards = 1, replicas = 0)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class CVIndexUnit {
+public class IndexUnit {
 
-	public static final String INDEX_NAME = "cv_index";
-	public static final String TYPE_NAME = "cv";
+	public static final String INDEX_NAME = "job_application_index";
+	public static final String TYPE_NAME = "job_application";
 	
 	@Id
 	@Field(type = FieldType.Text)
@@ -37,7 +36,10 @@ public class CVIndexUnit {
 	private QualificationLevel qualificationLevel;
 	
 	@Field(type = FieldType.Text)
-	private String content;
+	private String cvContent;
+	
+	@Field(type = FieldType.Text)
+	private String coverLetterContent;
 	
 	@GeoPointField
 	@JsonFormat(shape = JsonFormat.Shape.OBJECT)

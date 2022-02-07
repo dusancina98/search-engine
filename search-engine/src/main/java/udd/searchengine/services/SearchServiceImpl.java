@@ -25,6 +25,8 @@ public class SearchServiceImpl implements SearchService{
 
 	private static final String GEOLOCATION_FIELD = "location";
 	
+	private static final String COVER_LETTER_CONTENT_FIELD = "coverLetterContent";
+	
 	@Autowired
 	private CityRepository cityRepository;
 	
@@ -35,6 +37,8 @@ public class SearchServiceImpl implements SearchService{
 	public List<SearchResultDTO> search(List<SimpleQueryWithOperatorDTO> queries) {
 		
         BoolQueryBuilder boolQueryBuilder =  QueryBuilders.boolQuery();
+        String valueForDynamicHighlight = "";
+        
         for(SimpleQueryWithOperatorDTO query : queries) {
             if (query.Field == null || query.Value == null) {
                 continue;
@@ -77,9 +81,12 @@ public class SearchServiceImpl implements SearchService{
             }
 
             boolQueryBuilder = newBoolQueryBuilder;
+            
+            if (query.Field.equals(COVER_LETTER_CONTENT_FIELD))
+            	valueForDynamicHighlight = query.Value;
         }
         
-        return resultRetrieveService.getResultWithDynamicHighlight(boolQueryBuilder);
+        return resultRetrieveService.getResultWithDynamicHighlight(boolQueryBuilder, valueForDynamicHighlight);
 	}
 	
 	@Override

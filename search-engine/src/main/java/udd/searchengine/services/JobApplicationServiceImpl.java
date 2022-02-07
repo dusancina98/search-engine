@@ -15,10 +15,10 @@ import udd.searchengine.contracts.dto.JobApplicationDTO;
 import udd.searchengine.entities.CV;
 import udd.searchengine.entities.CoverLetter;
 import udd.searchengine.entities.JobApplication;
-import udd.searchengine.entities.elasticsearch.CVIndexUnit;
+import udd.searchengine.entities.elasticsearch.IndexUnit;
 import udd.searchengine.repository.CityRepository;
 import udd.searchengine.repository.JobApplicationRepository;
-import udd.searchengine.repository.elasticsearch.CVElasticSearchRepository;
+import udd.searchengine.repository.elasticsearch.JobApplicationElasticSearchRepository;
 import udd.searchengine.services.util.CityMapper;
 import udd.searchengine.services.util.JobApplicationMapper;
 
@@ -36,7 +36,7 @@ public class JobApplicationServiceImpl implements JobAplicationService{
 	private JobApplicationRepository jobApplicationRepository;
 	
 	@Autowired
-	private CVElasticSearchRepository cvElasticSearchRepository;
+	private JobApplicationElasticSearchRepository jobApplicationElasticSearchRepository;
 	
 	@Autowired
 	private FileUtilService fileUtilService;
@@ -63,18 +63,18 @@ public class JobApplicationServiceImpl implements JobAplicationService{
 			e.printStackTrace();
 			throw e;
 		}
-		indexCvDocument(jobApplication, cvContent);
+		indexCvDocument(jobApplication, cvContent, coverLetterContent);
 		
 		jobApplicationRepository.save(jobApplication);
 		return jobApplication.getId();
 	}
 	
-	private void indexCvDocument(JobApplication jobApplication, String content) {
-		CVIndexUnit indexUnit = new CVIndexUnit(jobApplication.getId().toString(), jobApplication.getCandidate().getFirstNname(), jobApplication.getCandidate().getLastNname(),
-												jobApplication.getCandidate().getQualificationLevel(), content,
+	private void indexCvDocument(JobApplication jobApplication, String cvContent, String coverLetterContent) {
+		IndexUnit indexUnit = new IndexUnit(jobApplication.getId().toString(), jobApplication.getCandidate().getFirstNname(), jobApplication.getCandidate().getLastNname(),
+												jobApplication.getCandidate().getQualificationLevel(), cvContent, coverLetterContent,
 												new GeoPoint(jobApplication.getCandidate().getCity().getLatitude(), jobApplication.getCandidate().getCity().getLongitude()),
 												jobApplication.getCandidate().getCity().getName());
-		cvElasticSearchRepository.save(indexUnit);
+		jobApplicationElasticSearchRepository.save(indexUnit);
 	}
 
 }
