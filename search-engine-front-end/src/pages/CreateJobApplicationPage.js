@@ -1,13 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CreateJobApplicationForm from "../components/create-job-application-form";
+import { logFormAccessLocation } from "../services/jobApplicationService";
 import { createJobApplicationRequest } from "../store/job-application/actions";
 
 const CreateJobApplicationPage = () => {
 	const dispatch = useDispatch();
+	const [location, setLocation] = useState(null);
+
+	const getCurrentCoords = () => {
+		console.log(navigator);
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition((position) => setLocation({ Latitude: position.coords.latitude, Longitude: position.coords.longitude }));
+		}
+	};
+
+	useEffect(() => {
+		if (location) {
+			console.log(location);
+			dispatch(logFormAccessLocation(location));
+		}
+	}, [dispatch, location]);
 
 	useEffect(() => {
 		dispatch(createJobApplicationRequest());
+		getCurrentCoords();
 	}, [dispatch]);
 
 	return (

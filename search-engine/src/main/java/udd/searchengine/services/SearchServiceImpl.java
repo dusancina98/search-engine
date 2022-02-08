@@ -7,6 +7,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,6 @@ import udd.searchengine.services.util.elasticsearch.QueryFactory;
 
 @Service
 public class SearchServiceImpl implements SearchService{
-
-	private static final String GEOLOCATION_FIELD = "location";
-	
-	private static final String COVER_LETTER_CONTENT_FIELD = "coverLetterContent";
 	
 	@Autowired
 	private CityRepository cityRepository;
@@ -37,7 +34,7 @@ public class SearchServiceImpl implements SearchService{
 	public List<SearchResultDTO> search(List<SimpleQueryWithOperatorDTO> queries) {
 		
         BoolQueryBuilder boolQueryBuilder =  QueryBuilders.boolQuery();
-        String valueForDynamicHighlight = "";
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
         
         for(SimpleQueryWithOperatorDTO query : queries) {
             if (query.Field == null || query.Value == null) {
@@ -50,43 +47,53 @@ public class SearchServiceImpl implements SearchService{
                 continue;
             }
 
-            QueryBuilder queryBuilder = null;
-            try {
-                if (query.Value.startsWith("\"") && query.Value.endsWith("\"")) {
-                	query.Value = query.Value.substring(1, query.Value.length()-1);
-                    queryBuilder =  new QueryFactory().field(query.Field).value(query.Value).buildQuery(SearchType.phrase);
-                }
-                else {
-                	queryBuilder = new QueryFactory().field(query.Field).value(query.Value).buildQuery(SearchType.match);
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            BoolQueryBuilder newBoolQueryBuilder = QueryBuilders.boolQuery();
-
-            if (query.Operator == LogicalOperator.NO_OPERATOR) {
-                newBoolQueryBuilder.must(queryBuilder);
-            }else if(query.Operator == LogicalOperator.AND){
-                newBoolQueryBuilder.must(boolQueryBuilder);
-                newBoolQueryBuilder.must(queryBuilder);
-
-            }else if(query.Operator == LogicalOperator.OR){
-                newBoolQueryBuilder.should(boolQueryBuilder);
-                newBoolQueryBuilder.should(queryBuilder);
-            }else if(query.Operator == LogicalOperator.AND_NOT){
-                newBoolQueryBuilder.must(boolQueryBuilder);
-                newBoolQueryBuilder.mustNot(queryBuilder);
-            }
-
-            boolQueryBuilder = newBoolQueryBuilder;
+            boolQueryBuilder = getQueryBuilder(boolQueryBuilder, query);
             
-            if (query.Field.equals(COVER_LETTER_CONTENT_FIELD))
-            	valueForDynamicHighlight = query.Value;
+            if (query.Field.equals(FIRST_NAME_FIELD))
+            	highlightBuilder.field(FIRST_NAME_FIELD).preTags(highlightPreTag).postTags(highlightPostTag);
+            else if (query.Field.equals(LAST_NAME_FIELD))
+            	highlightBuilder.field(LAST_NAME_FIELD).preTags(highlightPreTag).postTags(highlightPostTag);
+            else if (query.Field.equals(QUALIFICATION_LEVEL_FIELD))
+            	highlightBuilder.field(QUALIFICATION_LEVEL_FIELD).preTags(highlightPreTag).postTags(highlightPostTag);
+            else if (query.Field.equals(COVER_LETTER_CONTENT_FIELD))
+            	highlightBuilder.field(COVER_LETTER_CONTENT_FIELD).preTags(highlightPreTag).postTags(highlightPostTag);
         }
         
-        return resultRetrieveService.getResultWithDynamicHighlight(boolQueryBuilder, valueForDynamicHighlight);
+        return resultRetrieveService.getResultWithDynamicHighlight(boolQueryBuilder, highlightBuilder);
+	}
+	
+	private BoolQueryBuilder getQueryBuilder(QueryBuilder boolQueryBuilder,SimpleQueryWithOperatorDTO query) {
+		QueryBuilder queryBuilder = null;
+        try {
+            if (query.Value.startsWith("\"") && query.Value.endsWith("\"")) {
+            	query.Value = query.Value.substring(1, query.Value.length()-1);
+                queryBuilder =  new QueryFactory().field(query.Field).value(query.Value).buildQuery(SearchType.phrase);
+            }
+            else {
+            	queryBuilder = new QueryFactory().field(query.Field).value(query.Value).buildQuery(SearchType.match);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        BoolQueryBuilder newBoolQueryBuilder = QueryBuilders.boolQuery();
+
+        if (query.Operator == LogicalOperator.NO_OPERATOR) {
+            newBoolQueryBuilder.must(queryBuilder);
+        }else if(query.Operator == LogicalOperator.AND){
+            newBoolQueryBuilder.must(boolQueryBuilder);
+            newBoolQueryBuilder.must(queryBuilder);
+
+        }else if(query.Operator == LogicalOperator.OR){
+            newBoolQueryBuilder.should(boolQueryBuilder);
+            newBoolQueryBuilder.should(queryBuilder);
+        }else if(query.Operator == LogicalOperator.AND_NOT){
+            newBoolQueryBuilder.must(boolQueryBuilder);
+            newBoolQueryBuilder.mustNot(queryBuilder);
+        }
+        
+        return newBoolQueryBuilder;
 	}
 	
 	@Override

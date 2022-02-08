@@ -25,3 +25,8 @@ export const searchByGeolocation = createAsyncThunk("job-application/search/geol
 	let response = await client.get(`/search/geolocation`, { params });
 	return response.data;
 });
+
+export const logFormAccessLocation = createAsyncThunk("job-application/form-access/statistics", async (params, _thunkAPI) => {
+	let response = await client.post(`/statistics/form-access`, params);
+	return response.data;
+});

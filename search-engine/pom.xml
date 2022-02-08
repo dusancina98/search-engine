@@ -31,6 +31,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 		<dependency>
     		<groupId>org.springframework.data</groupId>
     		<artifactId>spring-data-elasticsearch</artifactId>
@@ -63,7 +73,15 @@
    			<groupId>org.apache.commons</groupId>
     		<artifactId>commons-lang3</artifactId>
 		</dependency>
-        
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>3.4.0</version>
+		</dependency>
         
 	</dependencies>
 
