@@ -26,6 +26,7 @@ import udd.searchengine.contracts.StatisticsService;
 import udd.searchengine.contracts.dto.CityRetrieveByLocationDTO;
 import udd.searchengine.contracts.dto.FormAccessLocationDTO;
 import udd.searchengine.contracts.dto.MostFrequentCityDTO;
+import udd.searchengine.contracts.dto.MostFrequentPartOfDayDTO;
 import udd.searchengine.contracts.dto.StatisticsDTO;
 import udd.searchengine.entities.elasticsearch.LogIndex;
 import udd.searchengine.repository.CityRepository;
@@ -67,9 +68,9 @@ public class StatisticsServiceImpl implements StatisticsService{
 		return new StatisticsDTO(getMostFrequentCity(), getMostFrequentPartOfDay());
 	}
 	
-	private String getMostFrequentPartOfDay() {
+	private MostFrequentPartOfDayDTO getMostFrequentPartOfDay() {
 		long maxHits = 0;
-		String mostFrequentPartOfDay = null;
+		MostFrequentPartOfDayDTO mostFrequentPartOfDay = null;
 
 		for (String partOfDay : PartsOfDay.values.keySet()) {
 			Map<String, String> params = PartsOfDay.values.get(partOfDay);
@@ -89,7 +90,7 @@ public class StatisticsServiceImpl implements StatisticsService{
 			
 			if (searchHits.getTotalHits() > maxHits) {
 				maxHits = searchHits.getTotalHits();
-				mostFrequentPartOfDay = partOfDay;
+				mostFrequentPartOfDay = new MostFrequentPartOfDayDTO(partOfDay, params.get("from"), params.get("to"), maxHits);
 			}
 		}
 		return mostFrequentPartOfDay;

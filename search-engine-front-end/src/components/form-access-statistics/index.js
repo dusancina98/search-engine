@@ -16,7 +16,11 @@ const FormAccessStatistics = () => {
 			<h4>Statistics</h4>
 			{statistics.PartOfTheDay ? (
 				<div>
-					Najposeceniji deo dana: <b>{statistics.PartOfTheDay}</b>
+					Najposeceniji deo dana:{" "}
+					<b>
+						{statistics.PartOfTheDay.Name} [{statistics.PartOfTheDay.From} - {statistics.PartOfTheDay.To}]
+					</b>
+					, broj poseta: <b>{statistics.PartOfTheDay.Count}</b>
 				</div>
 			) : (
 				<div>Podaci o delu dana nisu dostupni</div>

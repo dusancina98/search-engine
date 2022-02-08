@@ -4,9 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor @AllArgsConstructor
-public class StatisticsDTO {
+public class MostFrequentPartOfDayDTO {
 
-	public MostFrequentCityDTO City;
+	public String Name;
 	
-	public MostFrequentPartOfDayDTO PartOfTheDay;
+	public String From;
+	
+	public String To;
+
+	public Long Count;
+
 }
