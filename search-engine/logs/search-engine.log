@@ -16,3 +16,8 @@
 [2022-02-08 18:32:12.588] [STATISTICS] [LAPTOP-96Q84AB9] [udd.searchengine.services.StatisticsServiceImpl.logFormAccessLocation(StatisticsServiceImpl.java:35)] [Novi Sad] [45.2504, 19.8499]
 [2022-02-08 19:57:59.014] [STATISTICS] [LAPTOP-96Q84AB9] [udd.searchengine.services.StatisticsServiceImpl.logFormAccessLocation(StatisticsServiceImpl.java:35)] [Novi Sad] [45.2504, 19.8499]
 [2022-02-08 20:06:47.140] [20:06:47.140] [STATISTICS] [LAPTOP-96Q84AB9] [udd.searchengine.services.StatisticsServiceImpl.logFormAccessLocation(StatisticsServiceImpl.java:35)] [Novi Sad] [45.2504, 19.8499]
+[2022-02-08 22:18:17.567] [2021-02-08 22:18:17.567] [STATISTICS] [LAPTOP-96Q84AB9] [udd.searchengine.services.StatisticsServiceImpl.logFormAccessLocation(StatisticsServiceImpl.java:52)] [Novi Sad] [45.2504, 19.8499]
+[2022-02-08 22:27:05.662] [2021-02-08 22:27:05.662] [STATISTICS] [LAPTOP-96Q84AB9] [udd.searchengine.services.StatisticsServiceImpl.logFormAccessLocation(StatisticsServiceImpl.java:52)] [Novi Sad] [45.2504, 19.8499]
+[2022-02-08 22:27:07.445] [2021-02-08 22:27:07.445] [STATISTICS] [LAPTOP-96Q84AB9] [udd.searchengine.services.StatisticsServiceImpl.logFormAccessLocation(StatisticsServiceImpl.java:52)] [Novi Sad] [45.2504, 19.8499]
+[2022-02-08 22:32:29.276] [2021-02-08T22:32:29.276] [STATISTICS] [LAPTOP-96Q84AB9] [udd.searchengine.services.StatisticsServiceImpl.logFormAccessLocation(StatisticsServiceImpl.java:52)] [Novi Sad] [45.2504, 19.8499]
+[2022-02-08 23:09:51.004] [2021-02-08T23:09:51.004] [STATISTICS] [LAPTOP-96Q84AB9] [udd.searchengine.services.StatisticsServiceImpl.logFormAccessLocation(StatisticsServiceImpl.java:56)] [Novi Sad] [45.2504, 19.8499]

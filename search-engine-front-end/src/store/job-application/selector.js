@@ -10,3 +10,4 @@ export const makeCities = () => createSelector(selectJobApplication, (substate) 
 export const makeQualificationLevels = () => createSelector(selectJobApplication, (substate) => substate.qualificationLevels);
 export const makeComplexSearchResults = () => createSelector(selectJobApplication, (substate) => substate.complexSearchResults);
 export const makeGeolocationSearchResults = () => createSelector(selectJobApplication, (substate) => substate.geolocationSearchResults);
+export const makeFormAccessStatistics = () => createSelector(selectJobApplication, (substate) => substate.statistics);

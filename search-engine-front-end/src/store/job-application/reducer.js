@@ -8,6 +8,10 @@ export const initialState = {
 	qualificationLevels: [],
 	complexSearchResults: [],
 	geolocationSearchResults: [],
+	statistics: {
+		PartOfTheDay: null,
+		City: null,
+	},
 };
 
 export const jobApplicationReducer = createReducer(initialState, {
@@ -26,7 +30,7 @@ export const jobApplicationReducer = createReducer(initialState, {
 	[jobApplicationActions.retreiveCitiesSuccess]: (state, action) => {
 		return { ...state, cities: action.payload };
 	},
-	[jobApplicationActions.retreiveCitiesError]: (state, action) => {
+	[jobApplicationActions.retreiveCitiesError]: (state, _action) => {
 		return { ...state, cities: [] };
 	},
 	[jobApplicationActions.retreiveQualificationLevelsRequest]: (state, _action) => {
@@ -53,7 +57,28 @@ export const jobApplicationReducer = createReducer(initialState, {
 	[jobApplicationActions.searchByGeolocationSuccess]: (state, action) => {
 		return { ...state, geolocationSearchResults: action.payload };
 	},
-	[jobApplicationActions.searchByGeolocationError]: (state, action) => {
+	[jobApplicationActions.searchByGeolocationError]: (state, _action) => {
 		return { ...state, geolocationSearchResults: [] };
+	},
+	[jobApplicationActions.retrieveFormAccessStatisticsRequest]: (state, _action) => {
+		return {
+			...state,
+			statistics: {
+				PartOfTheDay: null,
+				City: null,
+			},
+		};
+	},
+	[jobApplicationActions.retrieveFormAccessStatisticsSuccess]: (state, action) => {
+		return { ...state, statistics: action.payload };
+	},
+	[jobApplicationActions.retrieveFormAccessStatisticsError]: (state, _action) => {
+		return {
+			...state,
+			statistics: {
+				PartOfTheDay: null,
+				City: null,
+			},
+		};
 	},
 });

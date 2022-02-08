@@ -2,7 +2,7 @@
 <Configuration status="WARN" monitorInterval="30">
     <Properties>
         <Property name="LOG_PATTERN">
-            [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%d{HH:mm:ss.SSS}] [%level] [${hostName}] [%l] %encode{%.-500m}%n
+            [%d{yyyy-MM-dd HH:mm:ss.SSS}] [2021-02-08T%d{HH:mm:ss.SSS}] [%level] [${hostName}] [%l] %encode{%.-500m}%n
         </Property>
     </Properties>
 	  <CustomLevels>
