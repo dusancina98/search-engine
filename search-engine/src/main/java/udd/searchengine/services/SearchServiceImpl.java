@@ -57,6 +57,8 @@ public class SearchServiceImpl implements SearchService{
             	highlightBuilder.field(QUALIFICATION_LEVEL_FIELD).preTags(highlightPreTag).postTags(highlightPostTag);
             else if (query.Field.equals(COVER_LETTER_CONTENT_FIELD))
             	highlightBuilder.field(COVER_LETTER_CONTENT_FIELD).preTags(highlightPreTag).postTags(highlightPostTag);
+            else if (query.Field.equals(CV_CONTENT_FIELD))
+            	highlightBuilder.field(CV_CONTENT_FIELD).preTags(highlightPreTag).postTags(highlightPostTag);
         }
         
         return resultRetrieveService.getResultWithDynamicHighlight(boolQueryBuilder, highlightBuilder);

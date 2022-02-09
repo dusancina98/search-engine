@@ -16,6 +16,7 @@ export const complexSearchFormFields = {
 	lastName: "lastName",
 	qualificationLevel: "qualificationLevel",
 	coverLetterContent: "coverLetterContent",
+	cvContent: "cvContent",
 };
 
 export const geolocationSearchFormFields = {

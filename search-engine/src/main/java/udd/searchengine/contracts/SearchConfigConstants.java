@@ -6,6 +6,8 @@ public interface SearchConfigConstants {
 	
 	static final String COVER_LETTER_CONTENT_FIELD = "coverLetterContent";
 	
+	static final String CV_CONTENT_FIELD = "cvContent";
+	
 	static final String FIRST_NAME_FIELD = "firstName";
 
 	static final String LAST_NAME_FIELD = "lastName";

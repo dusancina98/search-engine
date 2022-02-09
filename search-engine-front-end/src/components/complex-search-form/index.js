@@ -17,7 +17,7 @@ const ComplexSearchForm = () => {
 		{ name: "operator2", description: "Operator", type: "select", as: "select", options: logicalOperatorOptions },
 		{ name: complexSearchFormFields.qualificationLevel, description: "Qualification level", type: "select", as: "select", options: [{ Id: "", Name: "" }, ...qualificationLevel] },
 		{ name: "operator3", description: "Operator", type: "select", as: "select", options: logicalOperatorOptions },
-		{ name: complexSearchFormFields.coverLetterContent, description: "Cover letter", type: "text", as: "input" },
+		{ name: complexSearchFormFields.cvContent, description: "CV content", type: "text", as: "input" },
 	];
 
 	useEffect(() => {
@@ -43,8 +43,8 @@ const ComplexSearchForm = () => {
 			},
 			{
 				Operator: values.operator3,
-				Field: complexSearchFormFields.coverLetterContent,
-				Value: values[complexSearchFormFields.coverLetterContent],
+				Field: complexSearchFormFields.cvContent,
+				Value: values[complexSearchFormFields.cvContent],
 			},
 		];
 
@@ -61,7 +61,7 @@ const ComplexSearchForm = () => {
 					operator2: "AND",
 					qualificationLevel: "",
 					operator3: "AND",
-					coverLetterContent: "",
+					cvContent: "",
 				}}
 				onSubmit={handleSubmit}
 			>
