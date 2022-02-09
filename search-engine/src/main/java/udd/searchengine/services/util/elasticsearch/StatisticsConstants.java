@@ -7,5 +7,7 @@ public class StatisticsConstants {
 	public static final String AGGREGATION_NAME = "top_city";
 	
 	public static final String AGGREGATION_FIELD = "city.keyword";
+	
+	public static final int NUMBER_TOP_CITIES = 5;
 
 }

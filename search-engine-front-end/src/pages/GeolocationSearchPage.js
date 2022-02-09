@@ -14,12 +14,13 @@ const GeolocationSearchPage = () => {
 
 	return (
 		<>
-			<div className="row m-auto w-75">
-				<FormAccessStatistics />
-
-				<div className="col-12 mt-3">
+			<div className="row m-auto p-5">
+				<div className="col-9">
 					<GeolocationSearchForm />
 					<GeolocationResultList />
+				</div>
+				<div className="col-3">
+					<FormAccessStatistics />
 				</div>
 			</div>
 		</>

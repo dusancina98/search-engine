@@ -14,15 +14,17 @@ const ComplexSearchPage = () => {
 
 	return (
 		<>
-			<div className="row m-auto w-75">
-				<div className="col-4">
-					<FormAccessStatistics />
+			<div className="row m-auto p-5">
+				<div className="col-3">
 					<div className="p-4 border mt-5" style={{ border: "1px", borderRadius: "15px" }}>
 						<ComplexSearchForm />
 					</div>
 				</div>
-				<div className="col-8">
+				<div className="col-6">
 					<SearchResultList />
+				</div>
+				<div className="col-3">
+					<FormAccessStatistics />
 				</div>
 			</div>
 		</>

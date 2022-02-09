@@ -1,5 +1,6 @@
 package udd.searchengine.services;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -65,13 +66,16 @@ public class StatisticsServiceImpl implements StatisticsService{
 
 	@Override
 	public StatisticsDTO getStatistics() {
-		return new StatisticsDTO(getMostFrequentCity(), getMostFrequentPartOfDay());
+		List<MostFrequentPartOfDayDTO> partsOfDay = getMostFrequentPartsOfDay();
+		List<MostFrequentCityDTO> cities = getMostFrequentCities();
+
+		return new StatisticsDTO(cities.isEmpty() ? null : cities.get(0), partsOfDay.isEmpty() ? null : partsOfDay.get(0), cities, partsOfDay);
 	}
 	
-	private MostFrequentPartOfDayDTO getMostFrequentPartOfDay() {
-		long maxHits = 0;
-		MostFrequentPartOfDayDTO mostFrequentPartOfDay = null;
+	private List<MostFrequentPartOfDayDTO> getMostFrequentPartsOfDay() {
 
+		List<MostFrequentPartOfDayDTO> partsOfDay = new ArrayList<MostFrequentPartOfDayDTO>();
+		
 		for (String partOfDay : PartsOfDay.values.keySet()) {
 			Map<String, String> params = PartsOfDay.values.get(partOfDay);
 			
@@ -88,34 +92,35 @@ public class StatisticsServiceImpl implements StatisticsService{
 			if (searchHits == null)
 				continue;
 			
-			if (searchHits.getTotalHits() > maxHits) {
-				maxHits = searchHits.getTotalHits();
-				mostFrequentPartOfDay = new MostFrequentPartOfDayDTO(partOfDay, params.get("from"), params.get("to"), maxHits);
-			}
+			partsOfDay.add(new MostFrequentPartOfDayDTO(partOfDay, params.get("from"), params.get("to"), searchHits.getTotalHits()));
+
 		}
-		return mostFrequentPartOfDay;
+		
+		Collections.sort(partsOfDay, (o1, o2) -> Long.compare(o2.Count, o1.Count));
+		return partsOfDay;
 	}
 	
-	private MostFrequentCityDTO getMostFrequentCity() {
+	private List<MostFrequentCityDTO> getMostFrequentCities() {
 		NativeSearchQuery searchQuer1y =  new NativeSearchQueryBuilder()
 												.addAggregation(AggregationBuilders.terms(StatisticsConstants.AGGREGATION_NAME)
-											    .field(StatisticsConstants.AGGREGATION_FIELD).order(BucketOrder.count(false)).size(1))
+											    .field(StatisticsConstants.AGGREGATION_FIELD).order(BucketOrder.count(false)).size(StatisticsConstants.NUMBER_TOP_CITIES))
 												.build();
 
 
 		Aggregations searchHitss = elasticsearchRestTemplate.search(searchQuer1y, LogIndex.class).getAggregations();
 		Aggregation top_city = searchHitss.getAsMap().get(StatisticsConstants.AGGREGATION_NAME);
 		
+		List<MostFrequentCityDTO> frequentCities = new ArrayList<MostFrequentCityDTO>();
+		
 		if (top_city != null) {
 			List<? extends Terms.Bucket> buckets = ((Terms) top_city).getBuckets();
 			if (buckets != null) {
-				if (buckets.size() > 0) {
-					Terms.Bucket bucket = buckets.get(0);
-					return new MostFrequentCityDTO(bucket.getKeyAsString(), bucket.getDocCount());
+				for (Terms.Bucket bucket : buckets) {
+					frequentCities.add(new MostFrequentCityDTO(bucket.getKeyAsString(), bucket.getDocCount()));
 				}
 			} 
 		}
-		return null;
+		return frequentCities;
 	}
 
 }

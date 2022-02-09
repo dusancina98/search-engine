@@ -9,8 +9,10 @@ export const initialState = {
 	complexSearchResults: [],
 	geolocationSearchResults: [],
 	statistics: {
-		PartOfTheDay: null,
-		City: null,
+		MostFrequentPartOfTheDay: null,
+		MostFrequentCity: null,
+		PartsOfDay: [],
+		Cities: [],
 	},
 };
 
@@ -64,8 +66,10 @@ export const jobApplicationReducer = createReducer(initialState, {
 		return {
 			...state,
 			statistics: {
-				PartOfTheDay: null,
-				City: null,
+				MostFrequentPartOfTheDay: null,
+				MostFrequentCity: null,
+				PartsOfDay: [],
+				Cities: [],
 			},
 		};
 	},
@@ -76,8 +80,10 @@ export const jobApplicationReducer = createReducer(initialState, {
 		return {
 			...state,
 			statistics: {
-				PartOfTheDay: null,
-				City: null,
+				MostFrequentPartOfTheDay: null,
+				MostFrequentCity: null,
+				PartsOfDay: [],
+				Cities: [],
 			},
 		};
 	},
