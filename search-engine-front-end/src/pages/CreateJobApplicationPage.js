@@ -17,6 +17,7 @@ const CreateJobApplicationPage = () => {
 
 	useEffect(() => {
 		if (location) {
+			console.log(location);
 			dispatch(logFormAccessLocation(location));
 		}
 	}, [dispatch, location]);

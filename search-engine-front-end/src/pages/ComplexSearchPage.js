@@ -14,7 +14,7 @@ const ComplexSearchPage = () => {
 
 	return (
 		<>
-			<div className="row m-auto p-5">
+			<div className="row m-auto">
 				<div className="col-3">
 					<div className="p-4 border mt-5" style={{ border: "1px", borderRadius: "15px" }}>
 						<ComplexSearchForm />

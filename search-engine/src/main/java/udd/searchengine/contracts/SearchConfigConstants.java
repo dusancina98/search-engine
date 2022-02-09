@@ -14,7 +14,7 @@ public interface SearchConfigConstants {
 	
 	static final String QUALIFICATION_LEVEL_FIELD = "qualificationLevel";
 	
-	static final int STATIC_HIGHLIGHT_LENGTH = 200;
+	static final int STATIC_HIGHLIGHT_WORDS = 50;
 	
 	static final String highlightPreTag = "<b>"; 
 	

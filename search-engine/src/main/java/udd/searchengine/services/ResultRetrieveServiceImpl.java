@@ -62,6 +62,9 @@ public class ResultRetrieveServiceImpl implements ResultRetrieveService{
 					highlight += searchHitContent + "...";
 				}
 			}
+			if (highlightFieldsMap.get(CV_CONTENT_FIELD) == null)
+				highlight +=  getStaticHighlightFromText(searchHit.getContent().getCvContent());
+			
 			IndexUnit indexUnit = searchHit.getContent();
 			results.add(new SearchResultDTO(indexUnit.getId(), highlight, indexUnit.getFirstName(), indexUnit.getLastName(), indexUnit.getCity(), indexUnit.getQualificationLevel().name(), indexUnit.getLocation().getLat(), indexUnit.getLocation().getLon()));
 			
@@ -94,17 +97,27 @@ public class ResultRetrieveServiceImpl implements ResultRetrieveService{
 
 		for (SearchHit<IndexUnit> searchHit : searchHits.getSearchHits()) {
 			IndexUnit indexUnit = searchHit.getContent();
-        	String highlight = getStaticFromText(indexUnit.getCoverLetterContent());
+        	String highlight = getStaticHighlightFromText(indexUnit.getCoverLetterContent());
         	results.add(new SearchResultDTO(indexUnit.getId() ,highlight, indexUnit.getFirstName(), indexUnit.getLastName(), indexUnit.getCity(), indexUnit.getQualificationLevel().name(), indexUnit.getLocation().getLat(), indexUnit.getLocation().getLon()));
 		}
 
 		return results;
 	}
 	
-	private String getStaticFromText(String text) {
+	private String getStaticHighlightFromText(String text) {
 		String normalizedText = StringUtils.normalizeSpace(text);
 
-		return normalizedText.substring(0, normalizedText.length() > STATIC_HIGHLIGHT_LENGTH ? STATIC_HIGHLIGHT_LENGTH : normalizedText.length() - 1) + "...";
+		return getFirstNWords(normalizedText) + "...";
+	}
+	
+	private String getFirstNWords(String text) {
+		String [] arr = text.split("\\s+"); 
+        String nWords="";
+        for(int i=0; i < (arr.length > STATIC_HIGHLIGHT_WORDS ? STATIC_HIGHLIGHT_WORDS : arr.length) ; i++){
+             nWords = nWords + " " + arr[i] ;         
+        }
+        
+        return nWords;
 	}
 	
 }
